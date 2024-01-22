@@ -1,6 +1,6 @@
-# cycle 
-Cycle is an Open-source operating system built on top of a microkernel. 
-It is written in Rust, C and C++
+# celosia 
+celosia is an Open-source operating system built on top of a microkernel. 
+It is written in C++
 
 
 ## building

@@ -1,7 +1,7 @@
 MAKEFLAGS += -rR
 
 BUILD := build
-KERNEL := cycle
+KERNEL := celosia
 
 # default compiler toolchain
 CC := cc
@@ -21,7 +21,7 @@ CFLAGS += -nostdlib -ffreestanding \
 	-Wall -Werror -Wextra -pedantic
 
 # C++ specific flags
-CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions
+CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=c++20
 
 CPPFLAGS := -I.. -MMD -MP -I../limine/ -Iinclude/
 
@@ -30,10 +30,10 @@ LDFLAGS += -m elf_x86_64 -nostdlib -static -pie \
 	-T linker.ld
 
 CFILES := $(shell find -L * -type f -name "*.c")
-CXXFILES := $(shell find -L * -type f -name "*.cxx")
+CXXFILES := $(shell find -L * -type f -name "*.cc")
 ASFILES := $(shell find -L * -type f -name "*.S")
-OBJ := $(addprefix obj/,$(CFILES:.c=.c.o) $(CXXFILES:.cxx=.cxx.o) $(ASFILES:.S=.S.o))
-HEADER_DEPS := $(addprefix obj/,$(CFILES:.c=.c.d) $(CXXFILES:.cxx=.cxx.d) $(ASFILES:.S=.S.d))
+OBJ := $(addprefix obj/,$(CFILES:.c=.c.o) $(CXXFILES:.cc=.cc.o) $(ASFILES:.S=.S.o))
+HEADER_DEPS := $(addprefix obj/,$(CFILES:.c=.c.d) $(CXXFILES:.cc=.cc.d) $(ASFILES:.S=.S.d))
 
 .PHONY: all
 all: $(BUILD)/$(KERNEL)
@@ -48,7 +48,7 @@ obj/%.c.o: %.c
 	mkdir -p "$$(dirname $@)"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
  
-obj/%.cxx.o: %.cxx
+obj/%.cc.o: %.cc
 	mkdir -p "$$(dirname $@)"
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 

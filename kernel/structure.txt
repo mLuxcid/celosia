@@ -1,2 +1,2 @@
-include/ - internal kernel include files
 hw/ - hardware related logic, such as ACPI, IDT, GDT...
+include/ - kernel related include files

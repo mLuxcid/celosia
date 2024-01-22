@@ -5,7 +5,7 @@ set -e
 mkdir -p root
  
 # Copy the relevant files over.
-cp -v build/cycle limine.cfg limine/limine-bios.sys \
+cp -v build/celosia limine.cfg limine/limine-bios.sys \
       limine/limine-bios-cd.bin limine/limine-uefi-cd.bin root/
  
 # Create the EFI boot tree and copy Limine's EFI executables over.
@@ -18,7 +18,7 @@ xorriso -as mkisofs -b limine-bios-cd.bin \
         -no-emul-boot -boot-load-size 4 -boot-info-table \
         --efi-boot limine-uefi-cd.bin \
         -efi-boot-part --efi-boot-image --protective-msdos-label \
-        root -o cycle.iso
+        root -o celosia.iso
  
 # Install Limine stage 1 and 2 for legacy BIOS boot.
-./limine/limine bios-install cycle.iso
+./limine/limine bios-install celosia.iso

@@ -1,7 +1,7 @@
 MAKEFLAGS += -rR
 
 BUILD := build
-KERNEL := cycle
+KERNEL := celosia
 
 .PHONY: all
 all: kernel
