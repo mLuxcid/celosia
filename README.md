@@ -1,6 +1,6 @@
 # celosia 
-celosia is an Open-source operating system built on top of a microkernel. 
-It is written in C++
+celosia is an Open-source RISC-V operating system built on top of a microkernel. 
+It is written in C
 
 
 ## building
