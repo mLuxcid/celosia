@@ -1,22 +1,22 @@
 #include <limine.h>
-#include <stddef.h>
+#include <types.h>
+#include <kernel/hw/gdt.h>
 
 LIMINE_BASE_REVISION(1)
 
-struct limine_framebuffer_request fb_req = {
-  .id = LIMINE_FRAMEBUFFER_REQUEST,
-  .revision = 0,
+limine_framebuffer_request fb_req = {
+  LIMINE_FRAMEBUFFER_REQUEST,
+  0,
+  NULL,
 };
 
-void halt(void)
-{
-  asm ("cli");
+void halt(void) {
+  __asm__ ("cli");
   for (;;)
-    asm ("hlt");
+    __asm__ ("hlt");
 }
 
-void _start(void)
-{
+extern "C" void kernel_entry(void) {
   if (!LIMINE_BASE_REVISION_SUPPORTED) {
     halt();
   }
@@ -25,8 +25,8 @@ void _start(void)
     halt();
   }
 
-  struct limine_framebuffer *fb = fb_req.response->framebuffers[0];
-  uint32_t *fb_addr = fb->address;
+  limine_framebuffer *fb = fb_req.response->framebuffers[0];
+  u32 *fb_addr = reinterpret_cast<u32 *>(fb->address);
 
   for (size_t x = 0; x < fb->width; x++) {
     for (size_t y = 0; y < fb->height; y++) {
