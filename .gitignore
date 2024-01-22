@@ -1,0 +1,8 @@
+build/
+obj/
+*.iso
+*.o
+*.elf
+root/
+run
+limine/
