@@ -1,10 +1,13 @@
 Celosia src tree.
 
 
-To build the project, you'll need a risc-v cross compiler. Run 
+To build the project, you'll need a risc-v cross compiler. 
+
+Then run 
 ```
 make -j$(nproc)
 ```
+
 
 To run the project in QEMU, run the following command:
 ```
