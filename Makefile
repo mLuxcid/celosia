@@ -3,13 +3,11 @@ MAKEFLAGS += -rR
 BUILD := build
 KERNEL := celosia
 
-.PHONY: all
+.PHONY: all kernel drivers userspace initrd
 all: kernel
 
-kernel: FORCE
+kernel:
 	make -C kernel
-	mkdir -p build
-	cp kernel/$(BUILD)/$(KERNEL) $(BUILD)/$(KERNEL)
 
 # TODO: implement these
 initrd:
@@ -23,6 +21,5 @@ userspace:
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILD)
+	make -C kernel clean
 
-FORCE: ;

@@ -3,27 +3,37 @@ MAKEFLAGS += -rR
 BUILD := build
 KERNEL := celosia
 
-TOOLCHAIN = riscv64-unknown-elf-
+# determine toolchain
+ifndef TOOLCHAIN
+TOOLCHAIN := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+	then echo 'riscv64-unknown-elf-'; \
+	elif riscv64-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+	then echo 'riscv64-linux-gnu-'; \
+	elif riscv64-unknown-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
+	then echo 'riscv64-unknown-linux-gnu-'; \
+	else echo "***" 1>&2; \
+	echo "*** Error: Couldn't find a riscv64 version of GCC/binutils." 1>&2; \
+	echo "*** To turn off this error, run 'gmake TOOLCHAIN= ...'." 1>&2; \
+	echo "***" 1>&2; exit 1; fi)
+endif
 
-# default compiler toolchain
 CC := $(TOOLCHAIN)gcc
 LD := $(TOOLCHAIN)ld
 AS := $(TOOLCHAIN)as
 
-CFLAGS := -O2 -ggdb
+CFLAGS := -O -ggdb -gdwarf-2
 LDFLAGS :=
 ASFLAGS :=
 
-# these flags shouldn't be changed
 CFLAGS += -nostdlib -ffreestanding \
-	-fno-stack-protector -fno-stack-check -fno-lto \
-	-fPIE -Wall -Werror -Wextra -pedantic \
-	-mno-relax -mcmodel=medany -pipe
+		  -fno-stack-protector -fno-stack-check -fno-lto \
+		  -fno-pie -no-pie -Wall -Werror -Wextra -pedantic \
+		  -mno-relax -mcmodel=medany -pipe -fno-common \
 
-CPPFLAGS := -I.. -MMD -MP -I../limine/ -Iinclude/
+CPPFLAGS := -I.. -MMD -MP -Iinclude/
 
 LDFLAGS += -nostdlib \
-	-T linker.ld
+		   -T linker.ld
 
 CFILES := $(shell find -L * -type f -name "*.c")
 ASFILES := $(shell find -L * -type f -name "*.S")
@@ -43,7 +53,6 @@ obj/%.c.o: %.c
 	mkdir -p "$$(dirname $@)"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-# Compilation rules for *.S files.
 obj/%.S.o: %.S
 	mkdir -p "$$(dirname $@)"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
