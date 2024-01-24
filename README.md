@@ -11,5 +11,5 @@ make -j$(nproc)
 
 To run the project in QEMU, run the following command:
 ```
-qemu-system-riscv64 -kernel build/celosia -machine virt -bios none -m 1G -nographic -serial mon:stdio
+qemu-system-riscv64 -kernel build/celosia -machine virt -bios none -m 128M -nographic -serial mon:stdio
 ```
