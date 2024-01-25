@@ -1,0 +1,8 @@
+#ifndef KERNEL_HW_UART_H_
+#define KERNEL_HW_UART_H_
+
+#include <sys/types.h>
+
+void uart_write(const char *);
+
+#endif /* KERNEL_HW_UART_H_ */
