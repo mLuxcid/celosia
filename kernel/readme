@@ -1,2 +1,5 @@
+================================ directories ===================================
 hw/ - hardware related logic, such as ACPI, PLIC, serial
 include/ - kernel related include files
+
+

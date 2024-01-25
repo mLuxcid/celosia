@@ -30,7 +30,7 @@ CFLAGS += -nostdlib -ffreestanding \
 		  -fno-pie -no-pie -Wall -Werror -Wextra -pedantic \
 		  -mno-relax -mcmodel=medany -pipe -fno-common \
 
-CPPFLAGS := -I.. -MMD -MP -Iinclude/
+CPPFLAGS := -I.. -MMD -MP -Iinclude/ -I../conf
 
 LDFLAGS += -nostdlib \
 		   -T linker.ld

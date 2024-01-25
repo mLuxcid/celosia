@@ -1,13 +1,16 @@
 #include <sys/types.h>
 #include <hw/uart.h>
+#include <kconfig.h>
 
-__attribute__ ((aligned (16))) char stack0[4096 * 8];
+void main(void);
+
+__attribute__ ((aligned (16))) char stack0[4096 * MAXHART];
 
 /* This function gets called in `entry.S` */
 void
 kernel_entry(void)
 {
-    uart_write("hello, world!\n");
+    uart_write("Hello, world!\r\n");
     while (1)
         ;
 }
