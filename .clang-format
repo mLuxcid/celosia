@@ -1,1 +1,3 @@
-DisableFormat: true
+BasedOnStyle: Google
+IndentWidth: 4
+

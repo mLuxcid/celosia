@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 
+void uart_init(void);
 void uart_write(const char *);
 void uart_putc(char);
 

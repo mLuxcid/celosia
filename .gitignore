@@ -1,12 +1,11 @@
 build/
 obj/
-*.iso
 *.o
 *.elf
-root/
 run
-limine/
 compile_flags.txt
 
 *.asm
 *.sym
+
+api_test/

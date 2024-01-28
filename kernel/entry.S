@@ -1,5 +1,6 @@
 .section .text
 
+# I may have stolen a bit from xv6 :3
 .section .text.init
 .global _start
 .type _start, %function
