@@ -1,4 +1,4 @@
-#include <spinlock.h>
+#include <lib/spinlock.h>
 #include <sys/types.h>
 
 void init_lock(struct spinlock *lock, char *name) {

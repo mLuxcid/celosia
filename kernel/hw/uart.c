@@ -1,6 +1,6 @@
 #include <boardconfig.h>
 #include <hw/uart.h>
-#include <spinlock.h>
+#include <lib/spinlock.h>
 #include <sys/types.h>
 
 volatile uint8_t *uart0_ptr = (volatile uint8_t *)UART0_ADDR;
@@ -10,9 +10,9 @@ void uart_init(void) { init_lock(&locked, "UART0 lock"); }
 
 void uart_putc(char c) { *uart0_ptr = c; }
 
-void uart_write(const char *buf) {
+void uart_puts(const char *buf) {
     while (locked.locked) {
-        // spin
+        /* spin */
     }
 
     acquire_lock(&locked);
@@ -23,4 +23,11 @@ void uart_write(const char *buf) {
     }
 
     release_lock(&locked);
+}
+
+char uart_getc(void) {
+    while (locked.locked) {
+    }
+
+    return *uart0_ptr;
 }

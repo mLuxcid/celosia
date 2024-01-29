@@ -1,5 +1,5 @@
 # roadmap
-- [x] basic UART
+- [x] basic UART - advanced UART
 - [x] SMP working
 - [x] switch to supervisor
 - [ ] Timer interrupts using the CLINT/ACLINT
