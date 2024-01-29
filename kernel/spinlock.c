@@ -6,6 +6,7 @@ void init_lock(struct spinlock *lock, char *name) {
     lock->locked = 0;
 }
 
+/* TODO: Disable Interrupts to avoid deadlocks */
 void acquire_lock(struct spinlock *lock) {
     while (__sync_lock_test_and_set(&lock->locked, 1)) {
     }

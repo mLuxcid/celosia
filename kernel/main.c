@@ -1,18 +1,22 @@
+#include <hw/reg.h>
 #include <hw/uart.h>
-#include <kconfig.h>
 #include <sys/types.h>
 
-void main(void);
+static volatile int started = 0;
 
-/* This gets loaded into `sp` */
-__attribute__((aligned(16))) char stack0[4096 * MAXHART];
+void main(void) {
+    if (read_tp() == 0) {
+        uart_init();
+        uart_write("initialized hart #0\n");
+        uart_write("booting...\n");
 
-/* This function gets called in `entry.S` */
-void kernel_entry(void) {
-    uart_init();
+        __sync_synchronize();
+        started = 1;
+    } else {
+        while (started == 0) {
+        }
 
-    uart_write("Hello, world!\n");
-    uart_write("Testing out stdout locking...\n");
-    while (1)
-        ;
+        __sync_synchronize();
+        uart_write("initialized hart...\n");
+    }
 }
