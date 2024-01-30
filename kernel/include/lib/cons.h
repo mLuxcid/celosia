@@ -5,24 +5,30 @@
 
 #include "hw/uart.h"
 
-namespace lib {
-
 namespace cons {
 
-// Classes must implement the `print` function
+// initialize the current console context
+void init(void);
+
+// this functions gets called by printf but not by the
+// write syscall
+// this version requires `T` to implement `print`
 template <Printable T>
-[[gnu::always_inline]] inline void puts(T const& t) {
+[[gnu::always_inline]] inline auto puts(T const& t) -> void {
     hw::uart::puts(t.print());
 }
 
+// this functions gets called by printf but not by the
+// write syscall
 // primitive types can be printed directly
 template <typename T>
-[[gnu::always_inline]] inline void puts(T t) {
+[[gnu::always_inline]] inline auto puts(T t) -> void {
     hw::uart::puts(t);
 }
 
-}  // namespace cons
+// this function is used by the write syscall
+void write(const void*);
 
-};  // namespace lib
+}  // namespace cons
 
 #endif /* KERNEL_LIB_CONS_H_ */

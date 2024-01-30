@@ -1,8 +1,6 @@
 #include <lib/spinlock.h>
 #include <sys/types.h>
 
-namespace lib {
-
 void init_lock(spinlock *lock, const char *name) {
     lock->name = (char *)name;
     lock->locked = 0;
@@ -15,5 +13,3 @@ void acquire_lock(spinlock *lock) {
 }
 
 void release_lock(spinlock *lock) { __sync_lock_release(&lock->locked); }
-
-}  // namespace lib

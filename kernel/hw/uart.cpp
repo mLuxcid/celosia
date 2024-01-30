@@ -7,7 +7,7 @@ namespace hw {
 namespace uart {
 
 volatile uint8_t *uart0_ptr = (volatile uint8_t *)UART0_ADDR;
-lib::spinlock locked;
+spinlock locked;
 
 void init(void) { init_lock(&locked, "UART0 lock"); }
 
@@ -28,7 +28,7 @@ void puts(const char *buf) {
     release_lock(&locked);
 }
 
-char uart_getc(void) {
+auto uart_getc(void) -> char {
     while (locked.locked) {
     }
 

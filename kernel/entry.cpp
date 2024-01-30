@@ -3,13 +3,13 @@
 #include <kconfig.h>
 #include <sys/types.h>
 
-/*extern "C"*/ void kthread_main(void);
+void kthread_main(void);
 
 /* This gets loaded into `sp` */
 __attribute__((aligned(16))) char stack0[4096 * MAX_HART];
 
 /* This function gets called in `entry.S` */
-extern "C" void kernel_entry(void) {
+extern "C" auto kernel_entry(void) -> void {
     /* set machine previous privelege mode to supervisor */
     write_mstatus((read_mstatus() & ~MSTATUS_MPP_MASK) | MSTATUS_MPP_S);
 
