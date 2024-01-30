@@ -1,5 +1,5 @@
 ================================ directories ===================================
 hw/ - hardware related logic, such as ACPI, PLIC, serial
-include/ - kernel related include files
-
+include/ - all header files go in there, in their specific subdirectory
+lib/ - library functions i. e. the console system
 
