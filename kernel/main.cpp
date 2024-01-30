@@ -1,5 +1,6 @@
 #include <hw/reg.h>
 #include <hw/uart.h>
+#include <lib/cons.h>
 #include <sys/types.h>
 
 static volatile int started = 0;
@@ -11,7 +12,8 @@ auto kthread_main(void) -> void {
     if (read_tp() == 0) {
         hw::uart::init();
         hw::uart::puts("initialized hart #0\n");
-        hw::uart::puts("booting...\n");
+
+        lib::cons::puts("booting...\n");
 
         __sync_synchronize();
         started = 1;

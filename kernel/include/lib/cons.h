@@ -3,17 +3,23 @@
 
 #include <lib/printable.h>
 
+#include "hw/uart.h"
+
 namespace lib {
 
 namespace cons {
 
 // Classes must implement the `print` function
 template <Printable T>
-void puts(T const&);
+[[gnu::always_inline]] inline void puts(T const& t) {
+    hw::uart::puts(t.print());
+}
 
 // primitive types can be printed directly
 template <typename T>
-void puts(T);
+[[gnu::always_inline]] inline void puts(T t) {
+    hw::uart::puts(t);
+}
 
 }  // namespace cons
 
