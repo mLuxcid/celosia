@@ -2,6 +2,7 @@
 #define KERNEL_HW_REG_H_
 
 #include <sys/types.h>
+namespace hw {}
 
 static inline uint64_t read_mhartid() {
     uint64_t val;
@@ -210,7 +211,7 @@ static inline void intread_off() {
 
 /* are device interrupts enabled? */
 static inline int intread_get() {
-    uint64_t val = read_sstatus();
+    const uint64_t val = read_sstatus();
     return (val & SSTATUS_SIE) != 0;
 }
 
