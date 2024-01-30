@@ -35,7 +35,7 @@ CXXFLAGS += -nostdlib -ffreestanding \
 		  -fno-stack-protector -fno-stack-check -fno-lto \
 		  -fno-pie -no-pie -Wall -Werror -Wextra -pedantic \
 		  -mno-relax -mcmodel=medany -pipe -fno-common \
-		  -fno-rtti -fno-exceptions
+		  -fno-rtti -fno-exceptions -std=c++20
 
 CPPFLAGS := -I.. -MMD -MP -Iinclude/ -I../conf
 

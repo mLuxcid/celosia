@@ -5,7 +5,7 @@
 static volatile int started = 0;
 
 auto kthread_main(void) -> void {
-    const char *nums = "0123456789";
+    constexpr const char *nums = "0123456789";
 
     /* tp stores the hartid */
     if (read_tp() == 0) {
