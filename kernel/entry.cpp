@@ -3,18 +3,18 @@
 #include <kconfig.h>
 #include <sys/types.h>
 
-void main(void);
+/*extern "C"*/ void kthread_main(void);
 
 /* This gets loaded into `sp` */
-__attribute__((aligned(16))) char stack0[4096 * MAXHART];
+__attribute__((aligned(16))) char stack0[4096 * MAX_HART];
 
 /* This function gets called in `entry.S` */
-void kernel_entry(void) {
+extern "C" void kernel_entry(void) {
     /* set machine previous privelege mode to supervisor */
     write_mstatus((read_mstatus() & ~MSTATUS_MPP_MASK) | MSTATUS_MPP_S);
 
     /* function that mret jumps to */
-    write_mepc((uint64_t)main);
+    write_mepc((uint64_t)kthread_main);
 
     /* disable paging in machine mode */
     write_satp(0);

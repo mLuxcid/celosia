@@ -2,8 +2,9 @@
 - [x] basic UART - advanced UART
 - [x] SMP working
 - [x] switch to supervisor
-- [ ] Timer interrupts using the CLINT/ACLINT
-- [ ] interrupts & exceptions using the PLIC
+- [ ] Interrupts:
+    - [ ] Timer interrupts using the CLINT/ACLINT
+    - [ ] interrupts & exceptions using the PLIC
 - [ ] Memory Managment:
     - [ ] PMM
     - [ ] VMM

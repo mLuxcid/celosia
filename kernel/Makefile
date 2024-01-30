@@ -18,10 +18,11 @@ TOOLCHAIN := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >
 endif
 
 CC := $(TOOLCHAIN)gcc
+CXX := $(TOOLCHAIN)g++
 LD := $(TOOLCHAIN)ld
-AS := $(TOOLCHAIN)as
 
 CFLAGS := -O -ggdb -gdwarf-2
+CXXFLAGS := $(CFLAGS)
 LDFLAGS :=
 ASFLAGS :=
 
@@ -30,15 +31,22 @@ CFLAGS += -nostdlib -ffreestanding \
 		  -fno-pie -no-pie -Wall -Werror -Wextra -pedantic \
 		  -mno-relax -mcmodel=medany -pipe -fno-common \
 
+CXXFLAGS += -nostdlib -ffreestanding \
+		  -fno-stack-protector -fno-stack-check -fno-lto \
+		  -fno-pie -no-pie -Wall -Werror -Wextra -pedantic \
+		  -mno-relax -mcmodel=medany -pipe -fno-common \
+		  -fno-rtti -fno-exceptions
+
 CPPFLAGS := -I.. -MMD -MP -Iinclude/ -I../conf
 
 LDFLAGS += -nostdlib \
 		   -T linker.ld
 
 CFILES := $(shell find -L * -type f -name "*.c")
+CXXFILES := $(shell find -L * -type f -name "*.cpp")
 ASFILES := $(shell find -L * -type f -name "*.S")
-OBJ := $(addprefix obj/,$(CFILES:.c=.c.o) $(ASFILES:.S=.S.o))
-HEADER_DEPS := $(addprefix obj/,$(CFILES:.c=.c.d) $(ASFILES:.S=.S.d))
+OBJ := $(addprefix obj/,$(CFILES:.c=.c.o) $(CXXFILES:.cpp=.cpp.o) $(ASFILES:.S=.S.o))
+HEADER_DEPS := $(addprefix obj/,$(CFILES:.c=.c.d) $(CXXFILES:.cp=.cp.d) $(ASFILES:.S=.S.d))
 
 .PHONY: all
 all: $(BUILD)/$(KERNEL)
@@ -52,6 +60,10 @@ $(BUILD)/$(KERNEL): $(OBJ)
 obj/%.c.o: %.c
 	mkdir -p "$$(dirname $@)"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+obj/%.cpp.o: %.cpp
+	mkdir -p "$$(dirname $@)"
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 obj/%.S.o: %.S
 	mkdir -p "$$(dirname $@)"

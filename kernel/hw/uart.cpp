@@ -3,14 +3,17 @@
 #include <lib/spinlock.h>
 #include <sys/types.h>
 
+namespace hw {
+namespace uart {
+
 volatile uint8_t *uart0_ptr = (volatile uint8_t *)UART0_ADDR;
-struct spinlock locked;
+lib::spinlock locked;
 
-void uart_init(void) { init_lock(&locked, "UART0 lock"); }
+void init(void) { init_lock(&locked, "UART0 lock"); }
 
-void uart_putc(char c) { *uart0_ptr = c; }
+void putc(char c) { *uart0_ptr = c; }
 
-void uart_puts(const char *buf) {
+void puts(const char *buf) {
     while (locked.locked) {
         /* spin */
     }
@@ -18,7 +21,7 @@ void uart_puts(const char *buf) {
     acquire_lock(&locked);
 
     while (*buf != '\0') {
-        uart_putc(*buf);
+        putc(*buf);
         buf++;
     }
 
@@ -31,3 +34,6 @@ char uart_getc(void) {
 
     return *uart0_ptr;
 }
+
+}  // namespace uart
+}  // namespace hw

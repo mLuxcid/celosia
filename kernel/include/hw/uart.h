@@ -3,14 +3,20 @@
 
 #include <sys/types.h>
 
+namespace hw {
+namespace uart {
+
 /* initialize the uart lock & configure(TODO)*/
-void uart_init(void);
+void init(void);
 
 /* write onto UART0 */
-void uart_puts(const char *);
-void uart_putc(char);
+void puts(const char *);
+void putc(char);
 
 /* read from UART0 */
-char uart_getc(void);
+char getc(void);
+
+}  // namespace uart
+}  // namespace hw
 
 #endif /* KERNEL_HW_UART_H_ */

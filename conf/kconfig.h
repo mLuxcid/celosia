@@ -1,2 +1,1 @@
-#define MAXHART 8
-
+#include "virt/kconfig.h"
