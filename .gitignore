@@ -9,3 +9,6 @@ compile_flags.txt
 *.sym
 
 api_test/
+
+*.dtb
+*.dts

@@ -11,7 +11,7 @@ namespace cons {
 void init(void);
 
 // this functions gets called by printf but not by the
-// write syscall
+// write syscall.
 // this version requires `T` to implement `print`
 template <Printable T>
 [[gnu::always_inline]] inline auto puts(T const& t) -> void {
@@ -19,7 +19,7 @@ template <Printable T>
 }
 
 // this functions gets called by printf but not by the
-// write syscall
+// write syscall.
 // primitive types can be printed directly
 template <typename T>
 [[gnu::always_inline]] inline auto puts(T t) -> void {
