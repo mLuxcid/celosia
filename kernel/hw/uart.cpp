@@ -1,7 +1,7 @@
-#include <boardconfig.h>
 #include <hw/uart.h>
 #include <lib/spinlock.h>
 #include <sys/types.h>
+#include <target/boardconfig.h>
 
 namespace hw {
 namespace uart {

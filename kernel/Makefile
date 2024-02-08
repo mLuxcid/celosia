@@ -36,7 +36,7 @@ CXXFLAGS += -nostdlib -ffreestanding \
 		  -mno-relax -mcmodel=medany -pipe -fno-common \
 		  -fno-rtti -fno-exceptions -std=c++20
 
-CPPFLAGS := -I.. -MMD -MP -Iinclude/ -I../conf
+CPPFLAGS := -I.. -MMD -MP -I./
 
 LDFLAGS += -nostdlib \
 		   -T linker.ld

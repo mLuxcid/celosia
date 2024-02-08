@@ -1,7 +1,7 @@
 #include <hw/reg.h>
 #include <hw/uart.h>
-#include <kconfig.h>
 #include <sys/types.h>
+#include <target/kconfig.h>
 
 void kthread_main(void);
 
