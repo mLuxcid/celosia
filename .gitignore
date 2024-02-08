@@ -12,3 +12,6 @@ api_test/
 
 *.dtb
 *.dts
+
+xbps/
+*.xbps

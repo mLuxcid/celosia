@@ -1,0 +1,15 @@
+# template file for 'mpx-kernel'
+pkgname="celosia-kernel"
+desc="The celosia microkernel."
+version="0.0_1"
+
+# extends make
+
+prepare() {
+    # do nothing
+    :
+}
+
+build() {
+    make -j$(nproc)
+}

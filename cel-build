@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -e
+
+BASE_DIR="celosia"
+
+log() {
+    echo -n -e "$(tput bold)$(basename $0):$(tput sgr0) $1"
+}
+
+die() {
+    log "\033[31;1mERROR\033[0m: $1\n"
+    exit 1
+}
+
+# TODO: clean this up by inlining & splitting in seperate functions
+build() {
+    for arg in "$@"
+    do
+        recipe="recipes/${arg}/template"
+        TOPDIR="$(pwd)"
+        if [ ! -f ${recipe} ];
+        then
+            found="false"
+        else
+            source $(realpath ${recipe})
+            log "building ${pkgname}\n"
+
+            # built dependencies
+            if [ ! ${deps} = "" ]; then
+                log "building dependencies of ${arg}\n"
+                for dep in ${deps}
+                do
+                    build dep
+                done
+            fi
+
+            log "running prepare()... "
+            prepare
+            echo "done."
+
+            if [ "${arg}" = "celosia-kernel" ];
+            then
+                pushd kernel > /dev/null
+            else 
+                if [ ! -d "pkgs/${arg}" ]; then
+                    die "package template exists but source is missing"
+                fi
+                pushd pkgs/${arg} > /dev/null
+            fi
+
+            log "running build()...\n"
+            build
+
+            # install the executables
+            mkdir -p ${TOPDIR}/build/${arg}
+
+            # TODO: we want to be able to install xbps packages onto the
+            # system root using `xbps-install` instead of copying the files
+            # directly
+            xbps-create -A riscv64 -n ${arg}-${version} -s "${desc}" build/
+            cp build/* ${TOPDIR}/build/${arg}
+
+            popd > /dev/null
+
+
+            log "done building ${arg}.\n"
+        fi
+
+
+        if [ "${found}" = "false" ]; then
+            die "no recipe for ${arg} found."
+        fi
+    done
+}
+
+# check if we are in the base directory
+if [ $(basename $(pwd)) != $BASE_DIR ]; then
+    die "please run $(basename $0) from $BASE_DIR."
+fi
+
+if [ -d xbps ];
+then
+    export PATH=$PATH:$(pwd)/xbps/usr/bin/
+fi
+
+case "$1" in
+    deps)
+        mkdir -p xbps && cd xbps
+        curl https://repo-default.voidlinux.org/static/xbps-static-0.59.1_5.x86_64-musl.tar.gz -o xbps-static.tar.gz
+
+        tar -xf xbps-static.tar.gz
+        cd usr/bin
+        for file in *.static
+        do
+            mv "${file}" "${file//.static/}"
+        done
+        ;;
+    build)
+        build "${@:2}"
+        ;;
+    *)
+        die "invalid subcommand."
+        ;;
+    "")
+        die "no subcommand provided."
+        ;;
+esac

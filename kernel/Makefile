@@ -24,7 +24,6 @@ LD := $(TOOLCHAIN)ld
 CFLAGS := -O -ggdb -gdwarf-2
 CXXFLAGS := $(CFLAGS)
 LDFLAGS :=
-ASFLAGS :=
 
 CFLAGS += -nostdlib -ffreestanding \
 		  -fno-stack-protector -fno-stack-check -fno-lto \

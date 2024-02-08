@@ -7,7 +7,7 @@ KERNEL := celosia
 all: kernel
 
 kernel:
-	make -C kernel
+	@./cel-build build celosia-kernel
 
 # TODO: implement these
 initrd:

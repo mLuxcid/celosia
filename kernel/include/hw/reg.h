@@ -202,15 +202,13 @@ static inline uint64_t read_time() {
 }
 
 /* enable device interrupts */
-static inline void intread_on() { write_sstatus(read_sstatus() | SSTATUS_SIE); }
+static inline void intr_on() { write_sstatus(read_sstatus() | SSTATUS_SIE); }
 
 /* disable device interrupts */
-static inline void intread_off() {
-    write_sstatus(read_sstatus() & ~SSTATUS_SIE);
-}
+static inline void intr_off() { write_sstatus(read_sstatus() & ~SSTATUS_SIE); }
 
 /* are device interrupts enabled? */
-static inline int intread_get() {
+static inline int intr_get() {
     const uint64_t val = read_sstatus();
     return (val & SSTATUS_SIE) != 0;
 }
