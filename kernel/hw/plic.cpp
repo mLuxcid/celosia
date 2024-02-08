@@ -1,8 +1,8 @@
-#include <boardconfig.h>
 #include <hw/plic.h>
 #include <hw/reg.h>
-#include <kconfig.h>
 #include <sys/types.h>
+#include <target/boardconfig.h>
+#include <target/kconfig.h>
 
 namespace hw {
 namespace plic {

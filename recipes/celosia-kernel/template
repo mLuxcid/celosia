@@ -1,4 +1,4 @@
-# template file for 'mpx-kernel'
+# template file for 'celosia-kernel'
 pkgname="celosia-kernel"
 desc="The celosia microkernel."
 version="0.0_1"
